@@ -17,7 +17,9 @@ class Game
     self.add_players
     #play rounds
     while @players.length > 1
+      debugger
       self.play_round 
+      self.next_player!
     end
     #show winner
     #ask game over
@@ -46,7 +48,7 @@ class Game
     #remove ghosts
     self.move_ghosts
     #switch players
-    self.next_player!
+    #self.next_player!
   end
 
   def init_dictionary
@@ -124,7 +126,7 @@ class Game
         @fragment += char
         puts "Letters are: #{@fragment}"
         puts
-        self.next_player!
+       self.next_player!
         self.play_round
       else
         puts "Word finished: #{@fragment}#{char}. #{self.current_player.name} loses point!"

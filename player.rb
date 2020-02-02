@@ -1,12 +1,10 @@
 class Player
 
-  attr_reader :name, :ghost
-  attr_writer :ghost
+  attr_reader :name, :losses
 
   def initialize
     @name = self.set_name
     @losses = 0
-    @ghost = false
   end
 
   def choose_move
@@ -44,6 +42,7 @@ class Player
   end
 
   def set_name
+    puts
     puts "Enter player`s name: "
     name = gets.chomp
   end
@@ -55,6 +54,5 @@ class Player
 
   def losses_update
     @losses += 1
-    @ghost = true if @losses == 5
   end
 end

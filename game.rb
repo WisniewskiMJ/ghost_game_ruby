@@ -17,12 +17,16 @@ class Game
     self.add_players
     #play rounds
     while @players.length > 1
-      debugger
       self.play_round 
       self.next_player!
+      self.move_ghosts
     end
     #show winner
+    puts "#{self.current_player.name} wins!"
+    puts
     #ask game over
+    self.game_over?
+    
   end
 
   def play_round
@@ -45,10 +49,6 @@ class Game
     else
       self.finished_word?(move)
     end
-    #remove ghosts
-    self.move_ghosts
-    #switch players
-    #self.next_player!
   end
 
   def init_dictionary
@@ -89,6 +89,7 @@ class Game
   end
 
   def next_player!
+    puts "ROTATE!"
     @players.rotate!
   end
 
@@ -132,6 +133,13 @@ class Game
         puts "Word finished: #{@fragment}#{char}. #{self.current_player.name} loses point!"
         self.current_player.losses_update
       end 
+  end
+
+  def game_over?
+    puts "Play again(p) or quit game(q):"
+    choose = gets.chomp
+    self.run if choose == "p".downcase
+    self.game_over? if choose != "q".downcase
   end
 
 end

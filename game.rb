@@ -1,6 +1,7 @@
 require 'set'
 require 'byebug'
 require_relative 'player'
+require_relative 'ai_player'
 
 class Game
   
@@ -8,7 +9,7 @@ class Game
     @ghosted = []
     @players = []
     @fragment = ''
-    @dictionary = init_dictionary
+    @dictionary = self.init_dictionary
   end
 
   def run
@@ -61,7 +62,15 @@ class Game
     print "Add player(a) or start game(s): "
     choice = gets.chomp
     if choice == "a"
-      @players << Player.new
+      puts "Human(h) or bot(b)?"
+      species = gets.chomp
+      if species == "h"
+        @players << Player.new
+      elsif species == "b"
+        @players << Ai_player.new
+      else
+        puts "Invalid choice"
+      end
       self.add_players
     elsif choice == "s" && @players.length < 2
       puts "There has to be at least two players"
@@ -107,7 +116,11 @@ class Game
   end
 
   def take_turn(player)
-    player.choose_move
+    if player.instance_of?(Player)
+      player.choose_move
+    else
+      player.compute_move(@players.length, @fragment, @dictionary)
+    end
   end
 
   def valid_fragment?

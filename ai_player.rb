@@ -10,10 +10,10 @@ class Ai_player
   def compute_move(players_number, fragment, dictionary)
 
     alpha = ("a".."z").to_a
-    winning_moves = []
-    losing_moves = []
+    possible_moves = Hash.new(0)
     possible_words = []
     possible_fragments = []
+    winning_moves = []
 
     alpha.each do |letter|
       dictionary.each do |word|
@@ -21,9 +21,9 @@ class Ai_player
           possible_words << word
           possible_fragments << fragment + letter if !possible_fragments.include?(fragment + letter)
           if word[fragment.length..-1].length % players_number == 0 && word[fragment.length..-1].length > 0
-            winning_moves << letter if !winning_moves.include?(letter)
+            possible_moves[letter] += 1
           elsif word[fragment.length..-1].length % players_number != 0
-            losing_moves << letter if !losing_moves.include?(letter)
+            possible_moves[letter] -= 1
           end
         end
       end
@@ -31,26 +31,13 @@ class Ai_player
 
     return self.trigger_challenge if possible_fragments.length == 0
 
-    p winning_moves
-    p losing_moves
+    highest_chance = possible_moves.values.sort[-1]
+    p possible_moves
     p possible_words
     p possible_fragments
-    return winning_moves.sample if winning_moves.length > 1
-    losing_moves.sample
-  end
-
-  def pick_letter
-    print 'Addng  a letter: '
-    letter = gets.chomp
-    alpha = ("a".."z").to_a
-    if alpha.include?(letter.downcase)
-      puts
-      return letter
-    else
-      puts 'Not a letter. Try again.'
-      puts
-      self.guess
-    end
+    possible_moves.each {|k, v| winning_moves << k if v == highest_chance}
+    p winning_moves
+    winning_moves.sample
   end
 
   def trigger_challenge

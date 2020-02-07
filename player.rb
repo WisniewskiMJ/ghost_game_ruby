@@ -31,7 +31,7 @@ class Player
     else
       puts 'Not a letter. Try again.'
       puts
-      self.guess
+      self.pick_letter
     end
   end
 

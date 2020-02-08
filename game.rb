@@ -67,7 +67,13 @@ class Game
       if species == "h"
         @players << Player.new
       elsif species == "b"
-        @players << Ai_player.new
+        puts "Choose level: easy(e), normal(n), hard(h)"
+        level = gets.chomp
+        if level == "e" || level == "n" || level == "h"
+          @players << Ai_player.new(level)
+        else
+          puts "Invalid choice"
+        end
       else
         puts "Invalid choice"
       end

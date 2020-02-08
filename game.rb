@@ -142,6 +142,7 @@ class Game
       puts "There are words in dictionary, which start with \"#{@fragment}\". #{self.current_player.name} loses point!"
       puts
       self.current_player.losses_update
+      self.current_player.losses_update
     elsif valid_fragment? == false
       puts "There are no words in dictionary, which start with \"#{@fragment}\". #{self.previous_player.name} loses point!"
       puts
